@@ -93,13 +93,40 @@ async function findById(scheme_id) {
         "scheme_name": "Have Fun!",
         "steps": []
       }
+        {
+    "scheme_name": "Steal Coworker's Identity",
+    "step_id": 14,
+    "step_number": 3,
+    "instructions": "artfully craft accessories",
+    "scheme_id": 6
+  }
   */
+
   const scheme = await db("schemes as sc")
     .leftJoin("steps as st", "sc.scheme_id", "st.scheme_id")
     .select("sc.scheme_name as scheme_name", "st.*")
     .where("sc.scheme_id", scheme_id)
     .orderBy("st.step_number", "asc");
-  return scheme;
+
+  const result = {
+    steps: [],
+  };
+
+  for (let step of scheme) {
+    if (!result.scheme_id) {
+      result.scheme_id = step.scheme_id;
+      result.scheme_name = step.scheme_name;
+    }
+    if (step.step_id) {
+      result.steps.push({
+        step_id: step.step_id,
+        step_number: step.step_number,
+        instructions: step.instructions,
+      });
+    }
+  }
+
+  return result;
 }
 
 function findSteps(scheme_id) {
