@@ -93,13 +93,7 @@ async function findById(scheme_id) {
         "scheme_name": "Have Fun!",
         "steps": []
       }
-        {
-    "scheme_name": "Steal Coworker's Identity",
-    "step_id": 14,
-    "step_number": 3,
-    "instructions": "artfully craft accessories",
-    "scheme_id": 6
-  }
+
   */
 
   const scheme = await db("schemes as sc")
@@ -126,7 +120,7 @@ async function findById(scheme_id) {
     }
   }
 
-  return result;
+  return result.scheme_name !== undefined ? result : null;
 }
 
 function findSteps(scheme_id) {
