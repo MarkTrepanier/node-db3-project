@@ -159,18 +159,21 @@ async function add(scheme) {
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
   const [id] = await db("schemes").insert(scheme);
-  console.log(id);
   const newScheme = await findById(id);
   return await newScheme;
 }
 
-function addStep(scheme_id, step) {
+async function addStep(scheme_id, step) {
   // EXERCISE E
   /*
     1E- This function adds a step to the scheme with the given `scheme_id`
     and resolves to _all the steps_ belonging to the given `scheme_id`,
     including the newly created one.
   */
+  step.scheme_id = scheme_id;
+  await db("steps").insert(step);
+  const allSteps = await findSteps(scheme_id);
+  return allSteps;
 }
 
 module.exports = {

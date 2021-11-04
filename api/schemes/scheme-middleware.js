@@ -56,10 +56,12 @@ const validateStep = (req, res, next) => {
     instructions === "" ||
     typeof instructions !== "string" ||
     typeof step_number !== "number" ||
-    step_number < 1
+    step_number < 1 ||
+    !step_number
   ) {
-    next({ status: 400, message: "inavlid step" });
+    next({ status: 400, message: "invalid step" });
   }
+  next();
 };
 
 module.exports = {
