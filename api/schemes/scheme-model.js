@@ -108,7 +108,7 @@ async function findById(scheme_id) {
 
   for (let step of scheme) {
     if (!result.scheme_id) {
-      result.scheme_id = step.scheme_id;
+      result.scheme_id = Number(scheme_id);
       result.scheme_name = step.scheme_name;
     }
     if (step.step_id) {
@@ -160,7 +160,8 @@ async function add(scheme) {
   */
   const [id] = await db("schemes").insert(scheme);
   console.log(id);
-  return await findById(id);
+  const newScheme = await findById(id);
+  return await newScheme;
 }
 
 function addStep(scheme_id, step) {
